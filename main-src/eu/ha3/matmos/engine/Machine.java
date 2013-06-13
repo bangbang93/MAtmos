@@ -7,7 +7,6 @@ import java.util.List;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 
-
 /*
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
                     Version 2, December 2004 
@@ -76,9 +75,8 @@ public class Machine extends Switchable
 	{
 		if (this.switchedOn)
 		{
-			for (Iterator<TimedEvent> iter = this.etimes.iterator(); iter.hasNext();)
+			for (TimedEvent etime : this.etimes)
 			{
-				TimedEvent etime = iter.next();
 				etime.routine();
 				
 			}
@@ -86,9 +84,9 @@ public class Machine extends Switchable
 		}
 		if (this.powered && !this.streams.isEmpty())
 		{
-			for (Iterator<Stream> iter = this.streams.iterator(); iter.hasNext();)
+			for (Stream stream : this.streams)
 			{
-				iter.next().routine();
+				stream.routine();
 			}
 			
 		}
@@ -107,14 +105,14 @@ public class Machine extends Switchable
 			return;
 		
 		this.switchedOn = true;
-		for (Iterator<TimedEvent> iter = this.etimes.iterator(); iter.hasNext();)
+		for (TimedEvent timedEvent : this.etimes)
 		{
-			iter.next().restart();
+			timedEvent.restart();
 		}
 		
-		for (Iterator<Stream> iter = this.streams.iterator(); iter.hasNext();)
+		for (Stream stream : this.streams)
 		{
-			iter.next().signalPlayable();
+			stream.signalPlayable();
 		}
 		
 	}
@@ -132,9 +130,9 @@ public class Machine extends Switchable
 		
 		this.switchedOn = false;
 		
-		for (Iterator<Stream> iter = this.streams.iterator(); iter.hasNext();)
+		for (Stream stream : this.streams)
 		{
-			iter.next().signalStoppable();
+			stream.signalStoppable();
 		}
 		
 	}
@@ -153,9 +151,9 @@ public class Machine extends Switchable
 	 */
 	public void powerOff()
 	{
-		for (Iterator<Stream> iter = this.streams.iterator(); iter.hasNext();)
+		for (Stream stream : this.streams)
 		{
-			iter.next().clearToken();
+			stream.clearToken();
 		}
 		
 		turnOff();
@@ -416,24 +414,24 @@ public class Machine extends Switchable
 	{
 		buildDescriptibleSerialized(eventWriter);
 		
-		for (Iterator<String> iter = this.anyallows.iterator(); iter.hasNext();)
+		for (String str : this.anyallows)
 		{
-			createNode(eventWriter, "allow", iter.next());
+			createNode(eventWriter, "allow", str);
 		}
 		
-		for (Iterator<String> iter = this.anyrestricts.iterator(); iter.hasNext();)
+		for (String str : this.anyrestricts)
 		{
-			createNode(eventWriter, "restrict", iter.next());
+			createNode(eventWriter, "restrict", str);
 		}
 		
-		for (Iterator<TimedEvent> iter = this.etimes.iterator(); iter.hasNext();)
+		for (TimedEvent timedEvent : this.etimes)
 		{
-			iter.next().serialize(eventWriter);
+			timedEvent.serialize(eventWriter);
 		}
 		
-		for (Iterator<Stream> iter = this.streams.iterator(); iter.hasNext();)
+		for (Stream stream : this.streams)
 		{
-			iter.next().serialize(eventWriter);
+			stream.serialize(eventWriter);
 		}
 		
 		return "";

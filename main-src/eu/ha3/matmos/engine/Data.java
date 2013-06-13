@@ -1,7 +1,6 @@
 package eu.ha3.matmos.engine;
 
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -63,10 +62,8 @@ public class Data
 		eventWriter.add(eventFactory.createStartDocument());
 		eventWriter.add(ret);
 		eventWriter.add(eventFactory.createStartElement("", "", "contents"));
-		for (Iterator<Entry<String, int[]>> iter = this.sheets.entrySet().iterator(); iter.hasNext();)
+		for (Entry<String, int[]> entry : this.sheets.entrySet())
 		{
-			Entry<String, int[]> entry = iter.next();
-			
 			eventWriter.add(ret);
 			eventWriter.add(eventFactory.createStartElement("", "", "sheet"));
 			eventWriter.add(eventFactory.createAttribute("name", entry.getKey()));

@@ -3,7 +3,6 @@ package eu.ha3.matmos.engine;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Set;
@@ -724,36 +723,15 @@ public class Knowledge
 		
 	}
 	
-	public void routine()
-	{
-		if (!this.isRunning)
-			return;
-		
-		if (this.dataLastVersion != this.data.updateVersion)
-		{
-			evaluate();
-			this.dataLastVersion = this.data.updateVersion;
-			
-		}
-		
-		this.soundManager.routine();
-		for (Iterator<Machine> iter = this.machines.values().iterator(); iter.hasNext();)
-		{
-			iter.next().routine();
-			
-		}
-		
-	}
-	
 	public void soundRoutine()
 	{
 		if (!this.isRunning)
 			return;
 		
 		this.soundManager.routine();
-		for (Iterator<Machine> iter = this.machines.values().iterator(); iter.hasNext();)
+		for (Machine machine : this.machines.values())
 		{
-			iter.next().routine();
+			machine.routine();
 			
 		}
 		

@@ -182,10 +182,8 @@ public class ConditionSet extends Switchable
 	{
 		buildDescriptibleSerialized(eventWriter);
 		
-		for (Iterator<Entry<String, Boolean>> iter = this.conditions.entrySet().iterator(); iter.hasNext();)
+		for (Entry<String, Boolean> struct : this.conditions.entrySet())
 		{
-			Entry<String, Boolean> struct = iter.next();
-			
 			if (struct.getValue() == true)
 			{
 				createNode(eventWriter, "truepart", struct.getKey());
